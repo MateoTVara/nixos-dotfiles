@@ -62,7 +62,7 @@
     users = {
       marun = {
         isNormalUser = true;
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel" "ssh-keys" ];
         hashedPasswordFile = config.sops.secrets.marun_passwd.path;
         shell = pkgs.zsh;
       };
