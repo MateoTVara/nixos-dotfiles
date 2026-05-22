@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./networkmanager.nix
       ./programs/vim.nix
     ];
   
@@ -22,7 +23,6 @@
 
   networking = {
     hostName = "nixos-btw"; # Define your hostname.
-    networkmanager.enable = true;
     # proxy = {
     #   default = "http://user:password@proxy:port/";
     #   noProxy = "127.0.0.1,localhost,internal.domain"
@@ -104,6 +104,7 @@
       sops
       ssh-to-age
     ];
+    
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };
