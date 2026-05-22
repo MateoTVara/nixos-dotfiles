@@ -47,7 +47,8 @@
 
   # Secrets management with sops-nix
   sops = {
-    age.keyFile = "/home/marun/.config/sops/age/keys.txt";
+    # age.keyFile = "/home/marun/.config/sops/age/keys.txt";
+    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
