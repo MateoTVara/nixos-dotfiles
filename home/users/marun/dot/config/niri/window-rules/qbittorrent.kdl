@@ -1,0 +1,4 @@
+window-rule {
+    match app-id="org.qbittorrent.qBittorrent" title="qBittorrent v5.2.0"
+    default-column-width { proportion 0.75; }   
+}

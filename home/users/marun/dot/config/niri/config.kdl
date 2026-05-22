@@ -1,0 +1,85 @@
+include "./window-rules/firefox.kdl"
+include "./window-rules/general.kdl"
+include "./window-rules/qbittorrent.kdl"
+include "./window-rules/vscode.kdl"
+include "./window-rules/zed.kdl"
+include "./window-rules/zoom.kdl"
+
+include "./binds.kdl"
+include "./input.kdl"
+include "./layout.kdl"
+include "./output.kdl"
+
+// This config is in the KDL format: https://kdl.dev
+// "/-" comments out the following node.
+// Check the wiki for a full description of the configuration:
+// https://yalter.github.io/niri/Configuration:-Introduction
+
+// Added
+layer-rule {
+    match namespace="^awww-daemonwallpaper$"
+    place-within-backdrop true
+}
+
+// Add lines like this to spawn processes at startup.
+// Note that running niri as a session supports xdg-desktop-autostart,
+// which may be more convenient to use.
+// See the binds section below for more spawn examples.
+
+// This line starts waybar, a commonly used bar for Wayland compositors.
+spawn-at-startup "/home/marun/.local/bin/waybar-launcher.sh"
+// spawn-at-startup "hyprpaper"
+spawn-at-startup "awww-daemon" "-n" "wallpaper"
+// spawn-at-startup "awww" "img" "-n" "wallpaper" "/home/marun/Dotfiles/home/Pictures/wallpapers/Ranni_HP.jpg"
+spawn-at-startup "awww" "img" "-n" "wallpaper" "/home/marun/Dotfiles/home/Pictures/wallpapers/Ranni.jpg"
+spawn-at-startup "qbittorrent"
+
+// To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
+// spawn-sh-at-startup "qs -c ~/source/qs/MyAwesomeShell"
+
+hotkey-overlay {
+    // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
+    // skip-at-startup
+}
+
+// Uncomment this line to ask the clients to omit their client-side decorations if possible.
+// If the client will specifically ask for CSD, the request will be honored.
+// Additionally, clients will be informed that they are tiled, removing some client-side rounded corners.
+// This option will also fix border/focus ring drawing behind some semitransparent windows.
+// After enabling or disabling this, you need to restart the apps for this to take effect.
+prefer-no-csd
+
+// You can change the path where screenshots are saved.
+// A ~ at the front will be expanded to the home directory.
+// The path is formatted with strftime(3) to give you the screenshot date and time.
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+// You can also set this to null to disable saving screenshots to disk.
+// screenshot-path null
+
+// Animation settings.
+// The wiki explains how to configure individual animations:
+// https://yalter.github.io/niri/Configuration:-Animations
+animations {
+    // Uncomment to turn off all animations.
+    // off
+
+    // Slow down all animations by this factor. Values below 1 speed them up instead.
+    // slowdown 3.0
+}
+
+// Added
+environment {
+    XDG_CURRENT_DESKTOP "Niri"
+    XDG_SESSION_TYPE "wayland"
+    XDG_SESSION_DESKTOP "Niri"
+
+    QT_QPA_PLATFORMTHEME "qt6ct"
+    QT_SCALE_FACTOR "1"
+    QT_QPA_PLATFORM "wayland"
+
+    GDK_SCALE "1"
+    GDK_DPI_SCALE "0.9"
+
+    GTK_THEME "Adwaita:dark"
+}

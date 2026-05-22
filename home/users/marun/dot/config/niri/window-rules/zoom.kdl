@@ -1,0 +1,5 @@
+window-rule {
+    match app-id="zoom" title="zoom"
+    match app-id="zoom" title="annotate_toolbar"
+    open-floating true
+}

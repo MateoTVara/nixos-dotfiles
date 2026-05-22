@@ -1,51 +1,65 @@
-# flake.nix
 {
-  description = "A very basic flake";
+  description = "NixOs configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
-
+    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     sops-nix = {
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      sops-nix,
-      nix-vscode-extensions,
-    }@inputs:
-    {
-      nixosConfigurations = {
-        laptop = nixpkgs.lib.nixosSystem {
-          modules = [
-            ./configuration.nix
-            ./hardware-configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              nixpkgs.overlays = [ nix-vscode-extensions.overlays.default ];
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.sharedModules = [
+  outputs = {
+    self,
+    nixpkgs,
+    home-manager,
+    sops-nix,
+
+    nix-vscode-extensions,
+    ...
+  }:
+  let 
+    system = "x86_64-linux";
+  in 
+  {
+    nixosConfigurations = {
+      "nixos-btw" = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          sops-nix.nixosModules.sops
+
+          ./system-wide/configuration.nix
+
+          {
+            nixpkgs.overlays = [
+              nix-vscode-extensions.overlays.default
+            ];
+          }
+          
+          home-manager.nixosModules.default
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              sharedModules = [
                 sops-nix.homeManagerModules.sops
               ];
-              home-manager.users.marun = import ./users/marun;
-            }
-            sops-nix.nixosModules.sops
-          ];
-        };
+              users = {
+                marun = ./home/users/marun;
+              };
+            };
+          }
+        ];
       };
     };
+  };
 }
