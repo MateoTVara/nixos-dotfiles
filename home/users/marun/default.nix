@@ -4,9 +4,9 @@ let
     inherit name;
     value.enable = true;
   };
- 
+
   source = {
-    dot = path : {
+    dot = path: {
       name = ".${path}";
       value.source = ./dot + "/${path}";
     };
@@ -26,6 +26,7 @@ in
     ./programs/git.nix
     ./programs/ssh.nix
     ./programs/nvf.nix
+    ./programs/fastfetch
   ];
 
   sops = {
@@ -39,7 +40,7 @@ in
   home = {
     username = "marun";
     homeDirectory = "/home/marun";
-    
+
     packages = with pkgs; [
       tree
       wl-clipboard
@@ -48,30 +49,42 @@ in
     stateVersion = "25.11";
   };
 
-  programs = 
-    (builtins.listToAttrs (map enable [
-      "fastfetch"
-      "tmux"
-    ])) // {};
+  programs =
+    (builtins.listToAttrs (
+      map enable [
+        "tmux"
+      ]
+    ))
+    // { };
 
-  services = 
-    (builtins.listToAttrs (map enable [
-      "awww"
-      "polkit-gnome"
-    ])) // {};
-  
+  services =
+    (builtins.listToAttrs (
+      map enable [
+        "awww"
+        "polkit-gnome"
+      ]
+    ))
+    // { };
+
   home.file =
     # /home/marun/.<file or directory>
-    (builtins.listToAttrs (map source.dot [
+    (
+      builtins.listToAttrs (
+        map source.dot [
 
-    ])); 
+        ]
+      )
+    );
 
   xdg = {
     # /home/marun/.config/<file or directory>
-    configFile =
-      (builtins.listToAttrs (map source.dotConfig [
-        "niri"
-        "tmux"
-      ]));
+    configFile = (
+      builtins.listToAttrs (
+        map source.dotConfig [
+          "niri"
+          "tmux"
+        ]
+      )
+    );
   };
 }
