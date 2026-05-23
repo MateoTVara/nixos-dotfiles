@@ -31,11 +31,12 @@
   in 
   {
     nixosConfigurations = {
-      "nixos-btw" = nixpkgs.lib.nixosSystem {
+      "nixos-qvm1" = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           sops-nix.nixosModules.sops
 
+          ./host-specific/nixos-qvm1
           ./system-wide/configuration.nix
 
           {
@@ -54,7 +55,43 @@
                 sops-nix.homeManagerModules.sops
               ];
               users = {
-                marun = ./home/users/marun;
+                marun.imports = [
+                  ./home/users/marun/nixos-qvm1.nix
+                  ./home/users/marun
+                ];
+              };
+            };
+          }
+        ];
+      };
+      "nixos-qvm2" = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          sops-nix.nixosModules.sops
+
+          ./host-specific/nixos-qvm2
+          ./system-wide/configuration.nix
+
+          {
+            nixpkgs.overlays = [
+              nix-vscode-extensions.overlays.default
+            ];
+          }
+          
+          home-manager.nixosModules.default
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              backupFileExtension = "backup";
+              sharedModules = [
+                sops-nix.homeManagerModules.sops
+              ];
+              users = {
+                marun.imports = [
+                  ./home/users/marun
+                  ./home/users/marun/nixos-qvm2.nix
+                ];
               };
             };
           }

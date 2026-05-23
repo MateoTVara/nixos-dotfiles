@@ -7,7 +7,6 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
       ./networkmanager.nix
       ./programs/vim.nix
     ];
@@ -22,7 +21,7 @@
   };
 
   networking = {
-    hostName = "nixos-btw"; # Define your hostname.
+    # hostName = "nixos-qvm1"; # Define your hostname.
     # proxy = {
     #   default = "http://user:password@proxy:port/";
     #   noProxy = "127.0.0.1,localhost,internal.domain"
@@ -52,7 +51,7 @@
     defaultSopsFile = ../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
-      marun_passwd.neededForUsers = true;
+      "users/marun/passwd".neededForUsers = true;
     };
   };
 
@@ -63,7 +62,7 @@
       marun = {
         isNormalUser = true;
         extraGroups = [ "wheel" "ssh-keys" ];
-        hashedPasswordFile = config.sops.secrets.marun_passwd.path;
+        hashedPasswordFile = config.sops.secrets."users/marun/passwd".path;
         shell = pkgs.zsh;
       };
     };

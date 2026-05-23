@@ -4,8 +4,8 @@
   networking.networkmanager.enable = true;
 
   sops.secrets = {
-    "TOBAR-5G_psk" = {};
-    "TOBAR-2.4G_psk" = {};
+    "wifi/TOBAR-5G_psk" = {};
+    "wifi/TOBAR-2.4G_psk" = {};
   };
 
   system.activationScripts.networkmanager.text = ''
@@ -23,7 +23,7 @@
 
     [wifi-security]
     key-mgmt=wpa-psk
-    psk=$(cat ${config.sops.secrets."TOBAR-5G_psk".path})
+    psk=$(cat ${config.sops.secrets."wifi/TOBAR-5G_psk".path})
 
     [ipv4]
     method=auto
@@ -46,7 +46,7 @@
 
     [wifi-security]
     key-mgmt=wpa-psk
-    psk=$(cat ${config.sops.secrets."TOBAR-2.4G_psk".path})
+    psk=$(cat ${config.sops.secrets."wifi/TOBAR-2.4G_psk".path})
 
     [ipv4]
     method=auto
