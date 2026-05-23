@@ -5,11 +5,11 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./networkmanager.nix
-      ./programs/vim.nix
-    ];
+  imports =[
+    ./networkmanager.nix
+    ./programs/vim.nix
+    ./programs/ssh.nix
+  ];
   
   # Use grub
   boot.loader = {
@@ -21,7 +21,7 @@
   };
 
   networking = {
-    # hostName = "nixos-qvm1"; # Define your hostname.
+    # hostname defined in host-specific dir
     # proxy = {
     #   default = "http://user:password@proxy:port/";
     #   noProxy = "127.0.0.1,localhost,internal.domain"
@@ -69,15 +69,9 @@
   };
 
   # List of programs
-  programs.niri.enable = true;
-  programs.zsh.enable = true;
-  programs.ssh = {
-    knownHosts = {
-      github = {
-        hostNames = [ "github.com" ];
-        publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
-      };
-    };
+  programs = {
+    niri.enable = true;
+    zsh.enable = true;
   };
 
   # List fonts installed in system profile.
@@ -92,7 +86,6 @@
 
   environment = {
     # List packages installed in system profile.
-    # You can use https://search.nixos.org/ to find more packages (and options).
     systemPackages = with pkgs; [
       git
 
@@ -111,7 +104,6 @@
 
   services = {
     displayManager.ly.enable = true;
-    openssh.enable = true;
     printing.enable = true;
     pipewire = {
       enable = true;
@@ -120,34 +112,12 @@
     libinput.enable = true;
   };
 
-  # Copy the NixOS configuration file and link it from the resulting system
-  # (/run/current-system/configuration.nix). This is useful in case you
-  # accidentally delete configuration.nix.
-  # system.copySystemConfiguration = true;
-
-  # This option defines the first version of NixOS you have installed on this particular machine,
-  # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
-  #
-  # Most users should NEVER change this value after the initial install, for any reason,
-  # even if you've upgraded your system to a new NixOS release.
-  #
-  # This value does NOT affect the Nixpkgs version your packages and OS are pulled from,
-  # so changing it will NOT upgrade your system - see https://nixos.org/manual/nixos/stable/#sec-upgrading for how
-  # to actually do that.
-  #
-  # This value being lower than the current NixOS release does NOT mean your system is
-  # out of date, out of support, or vulnerable.
-  #
-  # Do NOT change this value unless you have manually inspected all the changes it would make to your configuration,
-  # and migrated your data accordingly.
-  #
-  # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
-  system.stateVersion = "25.11"; # Did you read the comment?
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
     "vscode"
   ];
+
+  system.stateVersion = "25.11";
 }
 

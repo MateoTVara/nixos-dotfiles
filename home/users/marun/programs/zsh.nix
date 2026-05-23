@@ -8,8 +8,8 @@
       size = 1000;
       save = 1000;
       path = "$HOME/.histfile";
-      ignoreDups = false;  # Matches default behavior
-      share = false;       # Matches default behavior
+      # ignoreDups = false;  # Matches default behavior
+      # share = false;       # Matches default behavior
     };
     
     initContent = ''
@@ -33,6 +33,8 @@
       zle -N down-line-or-beginning-search
       bindkey '^[[A' up-line-or-beginning-search
       bindkey '^[[B' down-line-or-beginning-search
+      bindkey "^[OA" up-line-or-beginning-search
+      bindkey "^[OB" down-line-or-beginning-search
       
       # Auto param slash
       setopt AUTO_PARAM_SLASH

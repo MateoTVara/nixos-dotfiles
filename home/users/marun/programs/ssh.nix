@@ -1,18 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  # sops.secrets = {
-  #   ssh_marun_private = {
-  #     path = "/home/marun/.ssh/id_ed25519";
-  #     mode = "0600";
-  #   };
-
-  #   ssh_marun_public = {
-  #     path = "/home/marun/.ssh/id_ed25519.pub";
-  #     mode = "0644";
-  #   };
-  # };
-
   programs.ssh = {
     enable = true;
 
@@ -29,5 +17,13 @@
         IdentityFile = "~/.ssh/id_ed25519";
       };
     };
+  };
+
+  home.file.".ssh/known_hosts" = {
+    text = ''
+      github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl
+      nixos-qvm1 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE8siICPLS0ELqVE5xFWikQvazLO54mZHGn0PtFop+6i
+      nixos-qvm2 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPExP7QFSFDeLREzFPA9IAQPhiUGLmVJ2MfCjfG156dh
+    '';
   };
 }

@@ -50,7 +50,8 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              backupFileExtension = "backup";
+              backupCommand =
+                "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' --";
               sharedModules = [
                 sops-nix.homeManagerModules.sops
               ];
@@ -83,7 +84,8 @@
             home-manager = {
               useGlobalPkgs = true;
               useUserPackages = true;
-              backupFileExtension = "backup";
+              backupCommand =
+                "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' --";
               sharedModules = [
                 sops-nix.homeManagerModules.sops
               ];
