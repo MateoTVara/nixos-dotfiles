@@ -15,6 +15,10 @@
       url = "github:Mic92/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -23,6 +27,7 @@
     home-manager,
     sops-nix,
 
+    nvf,
     nix-vscode-extensions,
     ...
   }:
@@ -54,6 +59,7 @@
                 "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' --";
               sharedModules = [
                 sops-nix.homeManagerModules.sops
+                nvf.homeManagerModules.default
               ];
               users = {
                 marun.imports = [
@@ -88,6 +94,7 @@
                 "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' --";
               sharedModules = [
                 sops-nix.homeManagerModules.sops
+                nvf.homeManagerModules.default
               ];
               users = {
                 marun.imports = [

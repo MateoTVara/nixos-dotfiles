@@ -18,13 +18,14 @@ let
 in
 {
   imports = [
-    ./programs/vscode.nix
+    ./programs/vscode
     ./programs/firefox.nix
     ./programs/wofi.nix
     ./programs/kitty.nix
     ./programs/zsh.nix
     ./programs/git.nix
     ./programs/ssh.nix
+    ./programs/nvf.nix
   ];
 
   sops = {

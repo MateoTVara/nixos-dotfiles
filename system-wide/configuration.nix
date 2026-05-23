@@ -95,6 +95,8 @@
       age
       sops
       ssh-to-age
+
+      nil
     ];
     
     sessionVariables = {
