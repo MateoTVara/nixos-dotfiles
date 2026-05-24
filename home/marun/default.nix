@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 let
   enable = name: {
     inherit name;
@@ -28,12 +28,14 @@ in
     ./programs/nvf.nix
     ./programs/fastfetch
     ./programs/waybar
+    ./programs/niri
+    ./programs/tmux
   ];
 
   sops = {
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
-    defaultSopsFile = ../../../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/secrets.yaml;
 
     defaultSopsFormat = "yaml";
   };
@@ -55,7 +57,7 @@ in
   programs =
     (builtins.listToAttrs (
       map enable [
-        "tmux"
+
       ]
     ))
     // { };
@@ -69,23 +71,23 @@ in
     ))
     // { };
 
-  home.file =
+  home.file = {
+    "Pictures/wallpapers".source = ./Pictures/wallpapers;
+  }
+  //
     # /home/marun/.<file or directory>
-    (
-      builtins.listToAttrs (
-        map source.dot [
+    (builtins.listToAttrs (
+      map source.dot [
 
-        ]
-      )
-    );
+      ]
+    ));
 
   xdg = {
     # /home/marun/.config/<file or directory>
     configFile = (
       builtins.listToAttrs (
         map source.dotConfig [
-          "niri"
-          "tmux"
+
         ]
       )
     );
