@@ -27,6 +27,7 @@ in
     ./programs/ssh.nix
     ./programs/nvf.nix
     ./programs/fastfetch
+    ./programs/waybar
   ];
 
   sops = {
@@ -44,6 +45,8 @@ in
     packages = with pkgs; [
       tree
       wl-clipboard
+      grim
+      slurp
     ];
 
     stateVersion = "25.11";
