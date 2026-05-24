@@ -1,11 +1,13 @@
 keys:
-  - &qemu_vm_1 age1pavzvxp9uyxzy3v3gstl225th4wvhk08c2uf2q7lmc5rqzjukc9qla47ah
   - &marun age1d484hqdf3rx5hnfjv7p65w9xnmc9qj2km8rh3x7e9wk2vjl8j9ts829euq
+  - &qemu_vm_1 age1pavzvxp9uyxzy3v3gstl225th4wvhk08c2uf2q7lmc5rqzjukc9qla47ah
   - &qemu_vm_2 age1ts2wdfwdefu4pq3yagk6zvp4xq48cpkjea4ctkr073vw8pqgfufqaskdv6
+  - &hp_laptop age1wh7wupylmjsz8g9j6546qkd5nu7pu2yred725jpq94am3apqscvs80ug8t
 creation_rules:
   - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
     key_groups:
     - age:
-      - *qemu_vm_1
       - *marun
+      - *qemu_vm_1
       - *qemu_vm_2
+      - *hp_laptop

@@ -9,6 +9,7 @@ let
   wallpapers = {
     "nixos-qvm1" = "/home/marun/Pictures/wallpapers/Ranni.jpg";
     "nixos-qvm2" = "/home/marun/Pictures/wallpapers/Ranni.jpg";
+    "nixos-hp-laptop" = "/home/marun/Pictures/wallpapers/Ranni_HP.jpg";
     "default" = "/home/marun/Pictures/wallpapers/Ranni.jpg";
   };
 
