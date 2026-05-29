@@ -1,20 +1,19 @@
-{ config, pkgs, ... }:
+{ ... }:
 
 {
   programs.kitty = {
     enable = true;
-    
+
     font = {
       name = "JetBrainsMono";
-      # size = 9;     # HP
-      size = 11.25; # Asus
+      size = 11.25;
     };
 
     settings = {
       enable_audio_bell = false;
 
-      background_opacity = 0.9;
-      background_blur = 0;
+      background_opacity = 0.5;
+      background_blur = 1;
 
       cursor_shape = "beam";
       cursor_blink_interval = 0.5;
