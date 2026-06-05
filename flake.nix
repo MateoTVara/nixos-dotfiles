@@ -27,127 +27,62 @@
       nixpkgs,
       home-manager,
       sops-nix,
-
       nvf,
       nix-vscode-extensions,
       ...
-    }:
+    }@inputs:
     let
       system = "x86_64-linux";
+
+      mkHost =
+        hostname:
+        nixpkgs.lib.nixosSystem {
+          inherit system;
+
+          modules = [
+            sops-nix.nixosModules.sops
+
+            ./host-specific/${hostname}
+            ./system-wide/configuration.nix
+
+            {
+              nixpkgs.overlays = [
+                nix-vscode-extensions.overlays.default
+              ];
+            }
+
+            home-manager.nixosModules.default
+
+            {
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+
+                backupCommand = "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' _";
+
+                extraSpecialArgs.extraArgs = {
+                  inherit hostname;
+                };
+
+                sharedModules = [
+                  sops-nix.homeManagerModules.sops
+                  nvf.homeManagerModules.default
+                ];
+
+                users.marun.imports = [
+                  ./home/marun
+                  ./home/marun/${hostname}.nix
+                ];
+              };
+            }
+          ];
+        };
     in
     {
       nixosConfigurations = {
-        "nixos-qvm1" = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            sops-nix.nixosModules.sops
-
-            ./host-specific/nixos-qvm1
-            ./system-wide/configuration.nix
-
-            {
-              nixpkgs.overlays = [
-                nix-vscode-extensions.overlays.default
-              ];
-            }
-
-            home-manager.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupCommand = "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' _";
-                extraSpecialArgs.extraArgs = {
-                  hostname = "nixos-qvm1";
-                };
-                sharedModules = [
-                  sops-nix.homeManagerModules.sops
-                  nvf.homeManagerModules.default
-                ];
-                users = {
-                  marun.imports = [
-                    ./home/marun/nixos-qvm1.nix
-                    ./home/marun
-                  ];
-                };
-              };
-            }
-          ];
-        };
-        "nixos-qvm2" = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            sops-nix.nixosModules.sops
-
-            ./host-specific/nixos-qvm2
-            ./system-wide/configuration.nix
-
-            {
-              nixpkgs.overlays = [
-                nix-vscode-extensions.overlays.default
-              ];
-            }
-
-            home-manager.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupCommand = "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' _";
-                extraSpecialArgs.extraArgs = {
-                  hostname = "nixos-qvm2";
-                };
-                sharedModules = [
-                  sops-nix.homeManagerModules.sops
-                  nvf.homeManagerModules.default
-                ];
-                users = {
-                  marun.imports = [
-                    ./home/marun
-                    ./home/marun/nixos-qvm2.nix
-                  ];
-                };
-              };
-            }
-          ];
-        };
-        "nixos-hp-laptop" = nixpkgs.lib.nixosSystem {
-          inherit system;
-          modules = [
-            sops-nix.nixosModules.sops
-
-            ./host-specific/nixos-hp-laptop
-            ./system-wide/configuration.nix
-
-            {
-              nixpkgs.overlays = [
-                nix-vscode-extensions.overlays.default
-              ];
-            }
-
-            home-manager.nixosModules.default
-            {
-              home-manager = {
-                useGlobalPkgs = true;
-                useUserPackages = true;
-                backupCommand = "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' _";
-                extraSpecialArgs.extraArgs = {
-                  hostname = "nixos-hp-laptop";
-                };
-                sharedModules = [
-                  sops-nix.homeManagerModules.sops
-                  nvf.homeManagerModules.default
-                ];
-                users = {
-                  marun.imports = [
-                    ./home/marun
-                    # ./home/marun/nixos-hp-laptop.nix
-                  ];
-                };
-              };
-            }
-          ];
-        };
+        nixos-qvm1 = mkHost "nixos-qvm1";
+        nixos-qvm2 = mkHost "nixos-qvm2";
+        nixos-hp-laptop = mkHost "nixos-hp-laptop";
       };
     };
 }
