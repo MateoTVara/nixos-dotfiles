@@ -27,7 +27,7 @@ layer-rule {
 // See the binds section below for more spawn examples.
 
 // This line starts waybar, a commonly used bar for Wayland compositors.
-spawn-at-startup "waybar"
+// spawn-at-startup "waybar"
 // spawn-at-startup "awww"
 spawn-at-startup "awww-daemon" "-n" "wallpaper"
 spawn-at-startup "awww" "img" "-n" "wallpaper" "@WALLPAPER_PATH@"

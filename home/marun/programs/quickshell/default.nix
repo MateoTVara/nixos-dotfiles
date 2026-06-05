@@ -1,0 +1,15 @@
+{ ... }:
+
+{
+  programs.quickshell = {
+    enable = true;
+
+    systemd.enable = true;
+
+    configs = {
+      default = ./config;
+    };
+
+    activeConfig = "default";
+  };
+}

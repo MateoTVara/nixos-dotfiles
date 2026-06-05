@@ -21,13 +21,13 @@ in
     ./programs/vscode
     ./programs/firefox.nix
     ./programs/wofi.nix
-    ./programs/kitty.nix
+    ./programs/alacritty.nix
     ./programs/zsh.nix
     ./programs/git.nix
     ./programs/ssh.nix
     ./programs/nvf.nix
     ./programs/fastfetch
-    ./programs/waybar
+    ./programs/quickshell
     ./programs/niri
     ./programs/tmux
   ];
@@ -49,6 +49,7 @@ in
       wl-clipboard
       grim
       slurp
+      zed-editor
     ];
 
     stateVersion = "25.11";
@@ -67,6 +68,7 @@ in
       map enable [
         "awww"
         "polkit-gnome"
+        "network-manager-applet"
       ]
     ))
     // { };
