@@ -6,7 +6,7 @@
             "1": "#F7EC31",
             "2": "#F7F7F7",
             "3": "#9656C9",
-            "4": "#2B2B2B",
+            "4": "#242424",
             "5": "#F7F7F7",
             "6": "#9656C9"
         },
@@ -55,6 +55,12 @@
         {
             "key": "Backlight   ",
             "type": "brightness",
+            "keyColor": "#9656C9",
+            "outputColor": "#F7F7F7"
+        },
+        {
+            "key": "Memory      ",
+            "type": "memory",
             "keyColor": "#9656C9",
             "outputColor": "#F7F7F7"
         },

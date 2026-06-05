@@ -19,6 +19,10 @@ in
 {
   imports = [
     ./programs/vscode
+    ./programs/fastfetch
+    ./programs/quickshell
+    ./programs/niri
+    ./programs/tmux
     ./programs/firefox.nix
     ./programs/wofi.nix
     ./programs/alacritty.nix
@@ -26,10 +30,8 @@ in
     ./programs/git.nix
     ./programs/ssh.nix
     ./programs/nvf.nix
-    ./programs/fastfetch
-    ./programs/quickshell
-    ./programs/niri
-    ./programs/tmux
+
+    ./services/awww.nix
   ];
 
   sops = {
@@ -50,6 +52,7 @@ in
       grim
       slurp
       zed-editor
+      qbittorrent
     ];
 
     stateVersion = "25.11";
@@ -58,7 +61,6 @@ in
   programs =
     (builtins.listToAttrs (
       map enable [
-
       ]
     ))
     // { };

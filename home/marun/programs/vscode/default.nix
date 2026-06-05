@@ -1,9 +1,4 @@
-{
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+{ pkgs, ... }:
 
 {
   programs.vscode = {
@@ -15,6 +10,8 @@
         christian-kohler.path-intellisense
         miguelsolorio.symbols
         wakatime.vscode-wakatime
+        theqtcompany.qt-qml
+        kdl-org.kdl
       ];
     };
   };

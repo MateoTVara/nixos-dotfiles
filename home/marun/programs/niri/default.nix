@@ -20,10 +20,11 @@ let
   };
 in
 {
-  xdg.configFile."niri/config.kdl".source = renderedConfig;
-  xdg.configFile."niri/window-rules".source = ./config/window-rules;
-  xdg.configFile."niri/binds.kdl".source = ./config/binds.kdl;
-  xdg.configFile."niri/input.kdl".source = ./config/input.kdl;
-  xdg.configFile."niri/layout.kdl".source = ./config/layout.kdl;
-  xdg.configFile."niri/output.kdl".source = ./config/output.kdl;
+  # xdg.configFile."niri/config.kdl".source = renderedConfig;
+  # xdg.configFile."niri/window-rules".source = ./config/window-rules;
+  # xdg.configFile."niri/binds.kdl".source = ./config/binds.kdl;
+  # xdg.configFile."niri/input.kdl".source = ./config/input.kdl;
+  # xdg.configFile."niri/layout.kdl".source = ./config/layout.kdl;
+  # xdg.configFile."niri/output.kdl".source = ./config/output.kdl;
+  xdg.configFile."niri".source = ./config;
 }
