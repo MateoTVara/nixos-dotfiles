@@ -71,7 +71,6 @@
 
                 users.marun.imports = [
                   ./home/marun
-                  ./home/marun/${hostname}.nix
                 ];
               };
             }
