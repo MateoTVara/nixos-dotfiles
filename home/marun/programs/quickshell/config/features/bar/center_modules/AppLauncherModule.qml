@@ -15,7 +15,7 @@ ModuleShell {
 
         Process {
             id: launcherProcess
-            command: ["sh", "-c", "pgrep wofi >/dev/null 2>&1 && killall wofi || wofi --show drun --location=top -y 3 &"]
+            command: ["sh", "-c", "pgrep wofi >/dev/null 2>&1 && pkill wofi || wofi --show drun --location=top -y 3 &"]
             stdout: StdioCollector {
                 onStreamFinished: {
                     console.log("AppLauncherModule process finished with output:", this.text);

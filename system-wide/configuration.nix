@@ -2,21 +2,26 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
-  imports =[
+  imports = [
     ./networkmanager.nix
     ./programs/vim.nix
     ./programs/ssh.nix
   ];
-  
+
   # Use grub
   boot.loader = {
     efi.canTouchEfiVariables = true;
     grub = {
       device = "nodev";
-      efiSupport = true;  
+      efiSupport = true;
     };
   };
 
@@ -37,7 +42,7 @@
   # Set your time zone.
   time.timeZone = "America/Lima";
   i18n.defaultLocale = "en_US.UTF-8";
-  
+
   # Set the console keyboard layout (used by e.g. virtual consoles)
   console = {
     font = "Lat2-Terminus16";
@@ -61,7 +66,10 @@
     users = {
       marun = {
         isNormalUser = true;
-        extraGroups = [ "wheel" "ssh-keys" ];
+        extraGroups = [
+          "wheel"
+          "ssh-keys"
+        ];
         hashedPasswordFile = config.sops.secrets."users/marun/passwd".path;
         shell = pkgs.zsh;
       };
@@ -98,7 +106,7 @@
 
       nil
     ];
-    
+
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
     };
@@ -112,14 +120,19 @@
       pulse.enable = true;
     };
     libinput.enable = true;
+    upower.enable = true;
   };
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "vscode"
+  nix.settings.experimental-features = [
+    "nix-command"
+    "flakes"
   ];
+
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "vscode"
+    ];
 
   system.stateVersion = "25.11";
 }
-
