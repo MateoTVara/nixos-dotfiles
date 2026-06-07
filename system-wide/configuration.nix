@@ -57,6 +57,7 @@
     defaultSopsFormat = "yaml";
     secrets = {
       "users/marun/passwd".neededForUsers = true;
+      "wifi/env" = {};
     };
   };
 
@@ -68,7 +69,6 @@
         isNormalUser = true;
         extraGroups = [
           "wheel"
-          "ssh-keys"
         ];
         hashedPasswordFile = config.sops.secrets."users/marun/passwd".path;
         shell = pkgs.zsh;
