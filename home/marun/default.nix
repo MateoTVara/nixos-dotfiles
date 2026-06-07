@@ -53,6 +53,7 @@ in
       slurp
       zed-editor
       qbittorrent
+      pavucontrol
     ];
 
     stateVersion = "25.11";
@@ -95,5 +96,28 @@ in
         ]
       )
     );
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "adwaita";
+    style.name = "adwaita-dark";
+  };
+
+  home.sessionVariables = {
+    # XDG_CURRENT_DESKTOP "Niri"
+    # XDG_SESSION_TYPE "wayland"
+    # XDG_SESSION_DESKTOP "Niri"
+
+    # QT_QPA_PLATFORMTHEME "qt6ct"
+    # QT_SCALE_FACTOR "1"
+    # QT_QPA_PLATFORM "wayland"
+
+    # GDK_SCALE "1"
+    # GDK_DPI_SCALE "0.9"
+    GDK_DPI_SCALE = "0.9";
+
+    # GTK_THEME "Adwaita:dark"
+    GTK_THEME = "Adwaita:dark";
   };
 }
