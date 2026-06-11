@@ -18,6 +18,7 @@ let
 in
 {
   imports = [
+    ./programs/zeditor
     ./programs/vscode
     ./programs/fastfetch
     ./programs/quickshell
@@ -48,10 +49,13 @@ in
 
     packages = with pkgs; [
       tree
+      tokei
       wl-clipboard
       grim
       slurp
-      zed-editor
+      brightnessctl
+      btop
+      kdePackages.dolphin
       qbittorrent
       pavucontrol
     ];
@@ -69,7 +73,6 @@ in
   services =
     (builtins.listToAttrs (
       map enable [
-        "awww"
         "polkit-gnome"
         "network-manager-applet"
       ]
@@ -101,7 +104,15 @@ in
   qt = {
     enable = true;
     platformTheme.name = "adwaita";
-    style.name = "adwaita-dark";
+    style = {
+      name = "adwaita-dark";
+    };
+  };
+
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
   };
 
   home.sessionVariables = {

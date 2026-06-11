@@ -57,7 +57,7 @@
     defaultSopsFormat = "yaml";
     secrets = {
       "users/marun/passwd".neededForUsers = true;
-      "wifi/env" = {};
+      "wifi/env" = { };
     };
   };
 
@@ -105,6 +105,7 @@
       ssh-to-age
 
       nil
+      nixd
     ];
 
     sessionVariables = {
