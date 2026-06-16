@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, ... }:
 let
   mkProfile = name: pskEnv: {
     connection = {
@@ -26,7 +26,7 @@ in
         config.sops.secrets."wifi/env".path
       ];
       profiles = {
-        "TOBAR-5G"   = mkProfile "TOBAR-5G"   "TOBAR_5G_PSK";
+        "TOBAR-5G" = mkProfile "TOBAR-5G" "TOBAR_5G_PSK";
         "TOBAR-2.4G" = mkProfile "TOBAR-2.4G" "TOBAR_2_DOT_4G_PSK";
       };
     };

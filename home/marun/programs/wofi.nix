@@ -3,10 +3,10 @@
 {
   programs.wofi = {
     enable = true;
-    
+
     settings = {
       show = "drun";
-      
+
       width = "30%";
       height = "50%";
       location = "center";

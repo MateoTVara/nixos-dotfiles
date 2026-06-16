@@ -24,6 +24,7 @@ in
     ./programs/quickshell
     ./programs/niri
     ./programs/tmux
+    ./programs/rofi
     ./programs/firefox.nix
     ./programs/wofi.nix
     ./programs/alacritty.nix
@@ -41,6 +42,10 @@ in
     defaultSopsFile = ../../secrets/secrets.yaml;
 
     defaultSopsFormat = "yaml";
+
+    secrets = {
+      "wakatime_api_key" = { };
+    };
   };
 
   home = {
@@ -50,6 +55,7 @@ in
     packages = with pkgs; [
       tree
       tokei
+      jq
       wl-clipboard
       grim
       slurp
@@ -81,6 +87,12 @@ in
 
   home.file = {
     "Pictures/wallpapers".source = ./Pictures/wallpapers;
+    "Scripts/rofi_project-launcher.sh" = {
+      source = ./Scripts/rofi_project-launcher.sh;
+      executable = true;
+    };
+
+    "Scripts/templates/launch.sh".source = ./Scripts/templates/launch.sh;
   }
   //
     # /home/marun/.<file or directory>

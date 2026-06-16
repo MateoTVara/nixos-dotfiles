@@ -76,6 +76,8 @@
     };
   };
 
+  programs.nix-ld.enable = true;
+
   # List of programs
   programs = {
     niri.enable = true;

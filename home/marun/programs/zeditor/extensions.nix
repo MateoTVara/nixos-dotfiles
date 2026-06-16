@@ -5,6 +5,7 @@
     "nix"
     "qml"
     "kdl"
+    "git-firefly"
 
     "wakatime"
 

@@ -12,6 +12,7 @@
         wakatime.vscode-wakatime
         theqtcompany.qt-qml
         kdl-org.kdl
+        moocfi.test-my-code
       ];
     };
   };

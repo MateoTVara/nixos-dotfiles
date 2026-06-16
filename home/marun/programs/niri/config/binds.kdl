@@ -18,10 +18,20 @@ binds {
     // Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; } // Added
     // Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
     // Mod+D hotkey-overlay-title="Run an Application: wofi" { spawn "wofi"; } // Added
-    Mod+D hotkey-overlay-title="Run an Application: wofi" {
-        spawn "sh" "-c" "pgrep -x wofi >/dev/null && pkill -x wofi || exec wofi --show drun"
-    }
+    // Mod+D hotkey-overlay-title="Run an Application: wofi" {
+    //     spawn "sh" "-c" "pgrep -x wofi >/dev/null && pkill -x wofi || exec wofi --show drun"
+    // }
     // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
+    Mod+D hotkey-overlay-title="Run an Application: rofi" {
+        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || rofi -show drun"
+    }
+    // Mod+b { spawn "/home/marun/.local/bin/waybar-toggle.sh"; }
+    Mod+B hotkey-overlay-title="Toggle an Application: quickshell" {
+        spawn "sh" "-c" "pgrep -x quickshell >/dev/null && pkill -x quickshell || niri msg action spawn -- quickshell"
+    }
+    Mod+P hotkey-overlay-title="Toggle rofi project launcher" {
+        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/Scripts/rofi_project-launcher.sh"
+    }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -68,14 +78,14 @@ binds {
     Mod+K     { focus-window-up; }
     Mod+L     { focus-column-right; }
 
-    Mod+Ctrl+Left  { move-column-left; }
-    Mod+Ctrl+Down  { move-window-down; }
-    Mod+Ctrl+Up    { move-window-up; }
-    Mod+Ctrl+Right { move-column-right; }
-    Mod+Ctrl+H     { move-column-left; }
-    Mod+Ctrl+J     { move-window-down; }
-    Mod+Ctrl+K     { move-window-up; }
-    Mod+Ctrl+L     { move-column-right; }
+    Mod+Shift+Left  { move-column-left; }
+    Mod+Shift+Down  { move-window-down; }
+    Mod+Shift+Up    { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H     { move-column-left; }
+    Mod+Shift+J     { move-window-down; }
+    Mod+Shift+K     { move-window-up; }
+    Mod+Shift+L     { move-column-right; }
 
     // Alternative commands that move across workspaces when reaching
     // the first or last window in a column.
@@ -89,14 +99,14 @@ binds {
     Mod+Ctrl+Home { move-column-to-first; }
     Mod+Ctrl+End  { move-column-to-last; }
 
-    Mod+Shift+Left  { focus-monitor-left; }
-    Mod+Shift+Down  { focus-monitor-down; }
-    Mod+Shift+Up    { focus-monitor-up; }
-    Mod+Shift+Right { focus-monitor-right; }
-    Mod+Shift+H     { focus-monitor-left; }
-    Mod+Shift+J     { focus-monitor-down; }
-    Mod+Shift+K     { focus-monitor-up; }
-    Mod+Shift+L     { focus-monitor-right; }
+    Mod+Ctrl+Left  { focus-monitor-left; }
+    Mod+Ctrl+Down  { focus-monitor-down; }
+    Mod+Ctrl+Up    { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Ctrl+H     { focus-monitor-left; }
+    Mod+Ctrl+J     { focus-monitor-down; }
+    Mod+Ctrl+K     { focus-monitor-up; }
+    Mod+Ctrl+L     { focus-monitor-right; }
 
     Mod+Shift+Ctrl+Left  { move-column-to-monitor-left; }
     Mod+Shift+Ctrl+Down  { move-column-to-monitor-down; }
@@ -203,11 +213,11 @@ binds {
     // If the window is already in a column, they will expel it out.
     // Mod+BracketLeft  { consume-or-expel-window-left; }
     // Mod+BracketRight { consume-or-expel-window-right; }
-    
+
     Mod+BraceLeft  { consume-or-expel-window-left; }
     Mod+BraceRight { consume-or-expel-window-right; }
-    
-    
+
+
 
     // Consume one window from the right to the bottom of the focused column.
     Mod+Comma  { consume-window-into-column; }
@@ -285,6 +295,4 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     Mod+Shift+P { power-off-monitors; }
-
-    Mod+b { spawn "/home/marun/.local/bin/waybar-toggle.sh"; }
 }
