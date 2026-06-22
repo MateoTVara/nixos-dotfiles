@@ -24,7 +24,7 @@ in
   ];
 
   sops = {
-    age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    age.keyFile = "/home/marun/.config/sops/age/keys.txt";
 
     defaultSopsFile = ../../secrets/secrets.yaml;
 

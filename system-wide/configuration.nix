@@ -16,7 +16,7 @@
     ./programs/ssh.nix
   ];
 
-  # Use grub
+  # Grub bootloader
   boot.loader = {
     efi.canTouchEfiVariables = true;
     grub = {
@@ -39,11 +39,11 @@
     # };
   };
 
-  # Set your time zone.
+  # Time zone
   time.timeZone = "America/Lima";
   i18n.defaultLocale = "en_US.UTF-8";
 
-  # Set the console keyboard layout (used by e.g. virtual consoles)
+  # Console keyboard layout
   console = {
     font = "Lat2-Terminus16";
     keyMap = "la-latin1";
@@ -61,7 +61,7 @@
     };
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # Users
   users = {
     mutableUsers = false;
     users = {
@@ -76,12 +76,11 @@
     };
   };
 
-  programs.nix-ld.enable = true;
-
   # List of programs
   programs = {
     niri.enable = true;
     zsh.enable = true;
+    nix-ld.enable = true;
   };
 
   # List fonts installed in system profile.
@@ -126,10 +125,26 @@
     upower.enable = true;
   };
 
-  nix.settings.experimental-features = [
-    "nix-command"
-    "flakes"
-  ];
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "1:00";
+      options = "--delete-older-than 7d";
+    };
+
+    optimise = {
+      automatic = true;
+      dates = "1:15";
+    };
+
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+    };
+  };
 
   nixpkgs.config.allowUnfreePredicate =
     pkg:

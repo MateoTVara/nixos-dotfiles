@@ -28,7 +28,7 @@
           x = 0;
           y = 0;
         };
-        builtin_box_drawing = false;
+        builtin_box_drawing = true;
       };
 
       colors = {
