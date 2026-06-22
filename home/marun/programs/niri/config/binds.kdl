@@ -11,26 +11,20 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
+    Mod+Z { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
     Mod+T hotkey-overlay-title="Open a Terminal: alacritty" { spawn "alacritty"; }
-    // Mod+T hotkey-overlay-title="Open a Terminal: kitty" { spawn "kitty"; } // Added
-    // Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
-    // Mod+D hotkey-overlay-title="Run an Application: wofi" { spawn "wofi"; } // Added
-    // Mod+D hotkey-overlay-title="Run an Application: wofi" {
-    //     spawn "sh" "-c" "pgrep -x wofi >/dev/null && pkill -x wofi || exec wofi --show drun"
-    // }
     // Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+D hotkey-overlay-title="Run an Application: rofi" {
-        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || rofi -show drun"
+        spawn-sh "pgrep -x rofi >/dev/null && pkill -x rofi || rofi -show drun"
     }
-    // Mod+b { spawn "/home/marun/.local/bin/waybar-toggle.sh"; }
-    Mod+B hotkey-overlay-title="Toggle an Application: quickshell" {
-        spawn "sh" "-c" "pgrep -x quickshell >/dev/null && pkill -x quickshell || niri msg action spawn -- quickshell"
+    Mod+B hotkey-overlay-title="Toggle quickshell" {
+        spawn-sh "pgrep -x \".quickshell-wra\" > /dev/null && pkill -x \".quickshell-wra\" || niri msg action spawn -- quickshell"
     }
     Mod+P hotkey-overlay-title="Toggle rofi project launcher" {
-        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/Scripts/rofi_project-launcher.sh"
+        // spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/Scripts/rofi_project-launcher.sh"
+        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/.local/bin/rofi_project-launcher.sh"
     }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.

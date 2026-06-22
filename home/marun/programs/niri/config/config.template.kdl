@@ -26,11 +26,8 @@ layer-rule {
 // which may be more convenient to use.
 // See the binds section below for more spawn examples.
 
-// This line starts waybar, a commonly used bar for Wayland compositors.
-// spawn-at-startup "waybar"
-// spawn-at-startup "awww"
-// spawn-at-startup "awww-daemon" "-n" "wallpaper"
-// spawn-at-startup "awww" "img" "-n" "wallpaper" "@WALLPAPER_PATH@"
+spawn-at-startup "awww-daemon" "-n" "wallpaper"
+spawn-at-startup "awww" "img" "-n" "wallpaper" "@WALLPAPER_PATH@"
 spawn-at-startup "qbittorrent"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:

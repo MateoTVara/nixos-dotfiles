@@ -17,9 +17,18 @@
 
       font = {
         normal = {
-          family = "JetBrainsMono";
+          family = "JetBrainsMono Nerd Font";
         };
-        size = 11.25;
+        size = 11;
+        offset = {
+          x = 0;
+          y = 0;
+        };
+        glyph_offset = {
+          x = 0;
+          y = 0;
+        };
+        builtin_box_drawing = false;
       };
 
       colors = {

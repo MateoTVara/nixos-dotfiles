@@ -4,17 +4,6 @@ let
     inherit name;
     value.enable = true;
   };
-
-  source = {
-    dot = path: {
-      name = ".${path}";
-      value.source = ./dot + "/${path}";
-    };
-    dotConfig = path: {
-      name = path;
-      value.source = ./dot/config + "/${path}";
-    };
-  };
 in
 {
   imports = [
@@ -32,8 +21,6 @@ in
     ./programs/git.nix
     ./programs/ssh.nix
     ./programs/nvf.nix
-
-    ./services/awww.nix
   ];
 
   sops = {
@@ -69,48 +56,29 @@ in
     stateVersion = "25.11";
   };
 
-  programs =
-    (builtins.listToAttrs (
-      map enable [
-      ]
-    ))
-    // { };
-
   services =
     (builtins.listToAttrs (
       map enable [
         "polkit-gnome"
         "network-manager-applet"
+        "awww"
       ]
     ))
     // { };
 
   home.file = {
     "Pictures/wallpapers".source = ./Pictures/wallpapers;
-    "Scripts/rofi_project-launcher.sh" = {
-      source = ./Scripts/rofi_project-launcher.sh;
+    ".local/bin/rofi_project-launcher.sh" = {
+      source = ./scripts/rofi_project-launcher.sh;
       executable = true;
     };
+  };
 
-    "Scripts/templates/launch.sh".source = ./Scripts/templates/launch.sh;
-  }
-  //
-    # /home/marun/.<file or directory>
-    (builtins.listToAttrs (
-      map source.dot [
-
-      ]
-    ));
-
-  xdg = {
-    # /home/marun/.config/<file or directory>
-    configFile = (
-      builtins.listToAttrs (
-        map source.dotConfig [
-
-        ]
-      )
-    );
+  xdg.dataFile = {
+    "templates" = {
+      source = ./scripts/templates;
+      recursive = true;
+    };
   };
 
   qt = {
@@ -128,19 +96,8 @@ in
   };
 
   home.sessionVariables = {
-    # XDG_CURRENT_DESKTOP "Niri"
-    # XDG_SESSION_TYPE "wayland"
-    # XDG_SESSION_DESKTOP "Niri"
-
-    # QT_QPA_PLATFORMTHEME "qt6ct"
-    # QT_SCALE_FACTOR "1"
-    # QT_QPA_PLATFORM "wayland"
-
-    # GDK_SCALE "1"
-    # GDK_DPI_SCALE "0.9"
     GDK_DPI_SCALE = "0.9";
 
-    # GTK_THEME "Adwaita:dark"
     GTK_THEME = "Adwaita:dark";
   };
 }
