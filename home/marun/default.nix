@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 let
   enable = name: {
     inherit name;
@@ -31,7 +31,10 @@ in
     defaultSopsFormat = "yaml";
 
     secrets = {
-      "wakatime_api_key" = { };
+      "wakatime_cfg" = {
+        path = "${config.home.homeDirectory}/.wakatime.cfg";
+        key = "wakatime_cfg";
+      };
     };
   };
 
@@ -51,6 +54,9 @@ in
       kdePackages.dolphin
       qbittorrent
       pavucontrol
+      wakatime-cli
+      zip
+      unzip
     ];
 
     stateVersion = "25.11";

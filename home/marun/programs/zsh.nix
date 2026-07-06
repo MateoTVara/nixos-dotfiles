@@ -1,15 +1,21 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
   programs.zsh = {
     enable = true;
+    enableCompletion = true;
+
+    plugins = [
+      {
+        name = "zsh-completions";
+        src = pkgs.zsh-completions;
+      }
+    ];
 
     history = {
       size = 1000;
       save = 1000;
       path = "$HOME/.histfile";
-      # ignoreDups = false;  # Matches default behavior
-      # share = false;       # Matches default behavior
     };
 
     initContent = ''
