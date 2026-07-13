@@ -3,13 +3,16 @@
   programs.vim = {
     enable = true;
     defaultEditor = true;
-    package = (pkgs.vim-full.override { }).customize{
+    package = (pkgs.vim-full.override { }).customize {
       name = "vim";
       vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {
-        start = [ vim-nix vim-lastplace ];
-	      opt = [];
+        start = [
+          vim-nix
+          vim-lastplace
+        ];
+        opt = [ ];
       };
-      
+
       vimrcConfig.customRC = ''
         set nocompatible
 

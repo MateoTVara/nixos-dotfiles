@@ -33,6 +33,7 @@
     }@inputs:
     let
       system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
 
       mkHost =
         hostname:
@@ -78,6 +79,7 @@
         };
     in
     {
+      formatter.${system} = pkgs.nixfmt-tree;
       nixosConfigurations = {
         nixos-qvm1 = mkHost "nixos-qvm1";
         nixos-qvm2 = mkHost "nixos-qvm2";

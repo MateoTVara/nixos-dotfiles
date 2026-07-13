@@ -13,6 +13,7 @@
         theqtcompany.qt-qml
         kdl-org.kdl
         moocfi.test-my-code
+        james-yu.latex-workshop
       ];
     };
   };

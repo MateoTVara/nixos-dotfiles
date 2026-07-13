@@ -1,10 +1,4 @@
-{ config, pkgs, ... }:
-let 
-  source = path: {
-    name = ".${path}";
-    value.source = ../dot + "/${path}";
-  };
-in 
+{ config, ... }:
 {
   programs.firefox = {
     enable = true;
