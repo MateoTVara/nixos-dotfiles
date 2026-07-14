@@ -63,3 +63,13 @@ animations {
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
 }
+
+environment {
+    QT_QPA_PLATFORM "wayland"
+
+    GDK_DPI_SCALE "0.9"
+
+    GTK_THEME "Adwaita:dark"
+
+    NIXOS_OZONE_WL "1"
+}

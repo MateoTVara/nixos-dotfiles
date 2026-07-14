@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 let
   enable = name: {
     inherit name;
@@ -7,29 +7,15 @@ let
 in
 {
   imports = [
-    ./programs/zeditor
-    ./programs/vscode
-    ./programs/fastfetch
-    ./programs/quickshell
-    ./programs/niri
-    ./programs/tmux
-    ./programs/rofi
-    ./programs/firefox.nix
-    ./programs/wofi.nix
-    ./programs/alacritty.nix
-    ./programs/zsh.nix
-    ./programs/git.nix
-    ./programs/ssh.nix
-    ./programs/nvf.nix
+    ./pictures
+    ./programs
+    ./scripts
   ];
 
   sops = {
     age.keyFile = "/home/marun/.config/sops/age/keys.txt";
-
     defaultSopsFile = ../../secrets/secrets.yaml;
-
     defaultSopsFormat = "yaml";
-
     secrets = {
       "wakatime_cfg" = {
         path = "${config.home.homeDirectory}/.wakatime.cfg";
@@ -41,23 +27,6 @@ in
   home = {
     username = "marun";
     homeDirectory = "/home/marun";
-
-    packages = with pkgs; [
-      tree
-      tokei
-      jq
-      wl-clipboard
-      grim
-      slurp
-      brightnessctl
-      btop
-      kdePackages.dolphin
-      qbittorrent
-      pavucontrol
-      wakatime-cli
-      zip
-      unzip
-    ];
 
     stateVersion = "25.11";
   };
@@ -72,38 +41,11 @@ in
     ))
     // { };
 
-  home.file = {
-    "Pictures/wallpapers".source = ./Pictures/wallpapers;
-    ".local/bin/rofi_project-launcher.sh" = {
-      source = ./scripts/rofi_project-launcher.sh;
-      executable = true;
-    };
-  };
-
-  xdg.dataFile = {
-    "templates" = {
-      source = ./scripts/templates;
-      recursive = true;
-    };
-  };
-
   qt = {
     enable = true;
     platformTheme.name = "adwaita";
     style = {
       name = "adwaita-dark";
     };
-  };
-
-  dconf.settings = {
-    "org/gnome/desktop/interface" = {
-      color-scheme = "prefer-dark";
-    };
-  };
-
-  home.sessionVariables = {
-    GDK_DPI_SCALE = "0.9";
-
-    GTK_THEME = "Adwaita:dark";
   };
 }

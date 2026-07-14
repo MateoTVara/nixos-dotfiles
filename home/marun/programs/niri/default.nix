@@ -1,6 +1,6 @@
-{ pkgs, extraArgs, ... }:
+{ pkgs, osConfig, ... }:
 let
-  hostname = extraArgs.hostname or "unknown";
+  hostname = osConfig.networking.hostName or "unknown";
 
   wallpapers = {
     "nixos-qvm1" = "/home/marun/Pictures/wallpapers/Ranni.jpg";

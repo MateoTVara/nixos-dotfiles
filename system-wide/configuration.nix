@@ -99,7 +99,6 @@
       git
 
       ripgrep
-      wl-clipboard
 
       age
       sops
@@ -108,10 +107,6 @@
       nil
       nixd
     ];
-
-    sessionVariables = {
-      NIXOS_OZONE_WL = "1";
-    };
   };
 
   services = {

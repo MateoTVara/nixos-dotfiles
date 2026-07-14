@@ -38,38 +38,24 @@
       mkHost =
         hostname:
         nixpkgs.lib.nixosSystem {
-          inherit system;
-
+          specialArgs = { inherit inputs; };
           modules = [
             sops-nix.nixosModules.sops
-
+            home-manager.nixosModules.default
             ./host-specific/${hostname}
             ./system-wide/configuration.nix
-
             {
+              nixpkgs.hostPlatform = system;
               nixpkgs.overlays = [
                 nix-vscode-extensions.overlays.default
               ];
-            }
-
-            home-manager.nixosModules.default
-
-            {
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-
-                backupCommand = "bash -c 'tar --zstd -cf \"$1.$(date +%s).tar.zst\" \"$1\" && rm -rf \"$1\"' _";
-
-                extraSpecialArgs.extraArgs = {
-                  inherit hostname;
-                };
-
                 sharedModules = [
                   sops-nix.homeManagerModules.sops
                   nvf.homeManagerModules.default
                 ];
-
                 users.marun.imports = [
                   ./home/marun
                 ];
