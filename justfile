@@ -1,4 +1,4 @@
-build-switch hostname:
+switch hostname:
     nixos-rebuild switch --flake .#{{hostname}} --use-remote-sudo
 
 up:

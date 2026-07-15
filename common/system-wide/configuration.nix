@@ -11,9 +11,9 @@
 
 {
   imports = [
+    ./programs
     ./networkmanager.nix
-    ./programs/vim.nix
-    ./programs/ssh.nix
+    ./options.nix
   ];
 
   # Grub bootloader
@@ -53,7 +53,7 @@
   sops = {
     # age.keyFile = "/home/marun/.config/sops/age/keys.txt";
     age.sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
-    defaultSopsFile = ../secrets/secrets.yaml;
+    defaultSopsFile = ../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
       "users/marun/passwd".neededForUsers = true;
@@ -76,13 +76,6 @@
     };
   };
 
-  # List of programs
-  programs = {
-    niri.enable = true;
-    zsh.enable = true;
-    nix-ld.enable = true;
-  };
-
   # List fonts installed in system profile.
   fonts.packages = with pkgs; [
     noto-fonts
@@ -92,22 +85,6 @@
 
     maple-mono.truetype
   ];
-
-  environment = {
-    # List packages installed in system profile.
-    systemPackages = with pkgs; [
-      git
-
-      ripgrep
-
-      age
-      sops
-      ssh-to-age
-
-      nil
-      nixd
-    ];
-  };
 
   services = {
     displayManager.ly.enable = true;

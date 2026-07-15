@@ -14,7 +14,7 @@ in
 
   sops = {
     age.keyFile = "/home/marun/.config/sops/age/keys.txt";
-    defaultSopsFile = ../../secrets/secrets.yaml;
+    defaultSopsFile = ../../../secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
     secrets = {
       "wakatime_cfg" = {

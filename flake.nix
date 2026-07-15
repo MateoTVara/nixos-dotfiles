@@ -35,15 +35,26 @@
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
 
+      # List of host directories (subdirectories of ./host-specific)
+      hosts = builtins.attrNames (
+        # filterAttrs returns a subset of the readDir output
+        # where the type is "directory" (i.e. a subdirectory)
+        nixpkgs.lib.filterAttrs (name: value: value == "directory")
+          # readDir returns a list of { name = "type" }
+          # where can be one of the following:
+          # "directory", "regular", "symlink", "unknown"
+          (builtins.readDir ./host-specific)
+      );
+
       mkHost =
         hostname:
         nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs hostname; };
           modules = [
             sops-nix.nixosModules.sops
             home-manager.nixosModules.default
             ./host-specific/${hostname}
-            ./system-wide/configuration.nix
+            ./common/system-wide/configuration.nix
             {
               nixpkgs.hostPlatform = system;
               nixpkgs.overlays = [
@@ -57,7 +68,7 @@
                   nvf.homeManagerModules.default
                 ];
                 users.marun.imports = [
-                  ./home/marun
+                  ./common/home/marun
                 ];
               };
             }
@@ -66,10 +77,13 @@
     in
     {
       formatter.${system} = pkgs.nixfmt-tree;
-      nixosConfigurations = {
-        nixos-qvm1 = mkHost "nixos-qvm1";
-        nixos-qvm2 = mkHost "nixos-qvm2";
-        nixos-hp-laptop = mkHost "nixos-hp-laptop";
-      };
+      nixosConfigurations =
+        # for instance:
+        # nixosConfigurations = {
+        #   nixos-qvm1 = mkHost "nixos-qvm1";
+        #   nixos-qvm2 = mkHost "nixos-qvm2";
+        #   nixos-hp-laptop = mkHost "nixos-hp-laptop";
+        # };
+        nixpkgs.lib.genAttrs hosts mkHost;
     };
 }
