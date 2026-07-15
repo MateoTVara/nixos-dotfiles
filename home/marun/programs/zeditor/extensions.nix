@@ -2,18 +2,20 @@
 
 {
   programs.zed-editor.extensions = [
-    "nix"
     "sql"
     "php"
     "perl"
-    "qml"
+
+    "nix"
+    "kdl"
 
     "angular"
 
+    "qml"
     "latex"
 
-    "kdl"
     "git-firefly"
+    "just"
 
     "log"
 

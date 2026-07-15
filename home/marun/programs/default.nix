@@ -15,6 +15,7 @@
     wakatime-cli
     zip
     unzip
+    just
   ];
 
   imports = [
