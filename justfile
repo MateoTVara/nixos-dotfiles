@@ -1,5 +1,7 @@
+alias s := switch
+
 switch hostname:
-    nixos-rebuild switch --flake .#{{hostname}} --use-remote-sudo
+    nixos-rebuild switch --flake .#{{hostname}} --elevate=sudo
 
 up:
     nix flake update
