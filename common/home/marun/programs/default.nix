@@ -28,6 +28,7 @@
     ./zeditor
 
     ./alacritty.nix
+    ./direnv.nix
     ./firefox.nix
     ./git.nix
     ./nvf.nix
