@@ -47,12 +47,14 @@
 
           html.enable = true;
           css.enable = true;
-          typescript.enable = true;
           tsx.enable = true;
           svelte.enable = true;
           astro.enable = true;
 
           rust.enable = true;
+          typescript.enable = true;
+
+          just.enable = true;
         };
 
         lsp = {

@@ -10,6 +10,7 @@
     "kdl"
 
     "angular"
+    "astro"
 
     "qml"
     "latex"
