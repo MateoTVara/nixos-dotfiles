@@ -1,15 +1,14 @@
-pragma ComponentBehavior: Bound
-
+import qs.components
+import qs.config
+import qs.features.bar.config
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
-import "../config"
-import "../../../components"
-import "../../../services"
 
 ModuleShell {
     id: root
+
     horizontalPadding: 7
 
     StyledText {
@@ -20,103 +19,176 @@ ModuleShell {
     background: ModuleShellBackground {
         MouseArea {
             id: mouseArea
-            anchors.fill: parent
-            onClicked: powerMenu.visible ? close() : open()
-
-            function close() {
-                powerMenu.visible = false;
-            }
 
             function open() {
                 powerMenu.visible = true;
+                powerMenu.opened = true;
+                powerMenu.topOffset = 5;
             }
+
+            function close() {
+                powerMenu.opened = false;
+                powerMenu.topOffset = powerMenu.closedOffset;
+            }
+
+            anchors.fill: parent
+            onClicked: powerMenu.opened ? close() : open()
         }
 
-        PopupWindow {
+        PanelWindow {
             id: powerMenu
-            property var margin: ({
-                    block: 6,
-                    inline: 8
-                })
 
-            // visible: true
+            property var padding: ({
+                "block": 6
+            })
+            property bool opened: false
+            property int closedOffset: -12
+            property int topOffset: powerMenu.closedOffset
+
             color: "transparent"
-            implicitHeight: menuLayout.implicitHeight + powerMenu.margin.block * 2
+            implicitHeight: menuLayout.implicitHeight + padding.block * 2
+            exclusionMode: ExclusionMode.Ignore
 
-            anchor {
-                item: mouseArea
-                edges: Edges.Bottom
-                gravity: Edges.Bottom
-                adjustment: PopupAdjustment.Flip
-                margins.bottom: -((BarConfig.height - root.implicitHeight) / 2 + 3)
+            anchors {
+                top: true
+                left: true
             }
 
-            Rectangle {
+            margins {
+                top: BarConfig.height + topOffset
+                left: BarConfig.inlineMargin + 6 + (root.width - powerMenu.width) / 2
+            }
+
+            Item {
+                id: content
+
                 anchors.fill: parent
-                color: ColorsService.background
-                border.color: ColorsService.border
-                radius: 12
-            }
+                opacity: powerMenu.opened ? 1 : 0
 
-            ColumnLayout {
-                id: menuLayout
-                spacing: 6
-                anchors {
-                    fill: parent
-                    topMargin: powerMenu.margin.block
-                    bottomMargin: powerMenu.margin.block
-                    leftMargin: powerMenu.margin.inline
-                    rightMargin: powerMenu.margin.inline
+                Rectangle {
+                    anchors.fill: parent
+                    color: ColorsConfig.background
+                    border.color: ColorsConfig.border
+                    radius: 12
                 }
 
-                Repeater {
-                    model: [
-                        {
-                            text: "Shutdown",
-                            action: () => shutdownProcess.exec(shutdownProcess.command)
-                        },
-                        {
-                            text: "Reboot",
-                            action: () => rebootProcess.exec(rebootProcess.command)
-                        },
-                        {
-                            text: "Logout",
-                            action: () => logoutProcess.exec(logoutProcess.command)
-                        }
-                    ]
+                ColumnLayout {
+                    id: menuLayout
 
-                    ModuleShell {
-                        id: menuItem
-                        required property var modelData
-                        Layout.fillWidth: true
-                        background: ModuleShellBackground {
-                            MouseArea {
-                                anchors.fill: parent
-                                onClicked: menuItem.modelData.action()
+                    spacing: 6
+                    anchors.centerIn: parent
+
+                    Repeater {
+                        model: [{
+                            "text": "Shutdown",
+                            "action": () => {
+                                return shutdownProcess.exec(shutdownProcess.command);
                             }
+                        }, {
+                            "text": "Reboot",
+                            "action": () => {
+                                return rebootProcess.exec(rebootProcess.command);
+                            }
+                        }, {
+                            "text": "Logout",
+                            "action": () => {
+                                return logoutProcess.exec(logoutProcess.command);
+                            }
+                        }]
+
+                        delegate: ModuleShell {
+                            id: menuItem
+
+                            required property var modelData
+                            property bool isHovered: hoverControl.hovered
+
+                            Layout.alignment: Qt.AlignCenter
+                            Layout.fillWidth: true
+
+                            StyledText {
+                                text: menuItem.modelData.text
+                                font.pointSize: 10.5
+                                color: menuItem.isHovered ? ColorsConfig.blue_800 : ColorsConfig.foreground
+
+                                Behavior on color {
+                                    ColorAnimation {
+                                        duration: 100
+                                    }
+
+                                }
+
+                            }
+
+                            background: ModuleShellBackground {
+                                color: menuItem.isHovered ? ColorsConfig.blue_300 : ColorsConfig.blue_700
+
+                                HoverHandler {
+                                    id: hoverControl
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: menuItem.modelData.action()
+                                }
+
+                                Behavior on color {
+                                    ColorAnimation {
+                                        duration: 100
+                                    }
+
+                                }
+
+                            }
+
                         }
-                        StyledText {
-                            text: menuItem.modelData.text
-                            font.pointSize: 10.5
-                        }
+
+                    }
+
+                }
+
+                Behavior on opacity {
+                    NumberAnimation {
+                        duration: 180
+                        easing.type: Easing.OutCubic
+                    }
+
+                }
+
+            }
+
+            Behavior on topOffset {
+                NumberAnimation {
+                    duration: 225
+                    easing.type: Easing.OutCubic
+                    onFinished: {
+                        if (!powerMenu.opened)
+                            powerMenu.visible = false;
+
                     }
                 }
+
             }
+
         }
 
         Process {
             id: shutdownProcess
+
             command: ["poweroff"]
         }
 
         Process {
             id: rebootProcess
+
             command: ["reboot"]
         }
 
         Process {
             id: logoutProcess
+
             command: ["niri", "msg", "action", "quit"]
         }
+
     }
+
 }

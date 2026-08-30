@@ -9,14 +9,17 @@
     slurp
     brightnessctl
     btop
-    kdePackages.dolphin
     qbittorrent
     pavucontrol
     wakatime-cli
     zip
     unzip
     just
-  ];
+  ]
+  ++ (with kdePackages; [
+    dolphin
+    qtdeclarative
+  ]);
 
   imports = [
     ./fastfetch

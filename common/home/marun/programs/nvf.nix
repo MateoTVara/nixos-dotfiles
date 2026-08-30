@@ -16,10 +16,6 @@
           shiftwidth = 2;
         };
 
-        filetree.neo-tree = {
-          enable = true;
-        };
-
         statusline.lualine = {
           enable = true;
         };
@@ -53,6 +49,7 @@
 
           rust.enable = true;
           typescript.enable = true;
+          qml.enable = true;
 
           just.enable = true;
         };
@@ -63,13 +60,6 @@
         };
 
         keymaps = [
-          {
-            # leader + 'E' to toggle file tree
-            key = "<leader>E";
-            mode = "n";
-            silent = true;
-            action = ":Neotree toggle<CR>";
-          }
           {
             # 'gl' for opening diagnostics in a floating window
             key = "gl";
@@ -86,22 +76,20 @@
           }
         ];
 
-        # leader + 'e' to toggle file tree focus
-        luaConfigRC.neotreeToggleFocus = ''
-          local function toggle_neotree_focus()
-            local current_buf = vim.api.nvim_get_current_buf()
-            local ft = vim.bo[current_buf].filetype
+        # leader + 'fe' to open netrw file explore
+        luaConfigRC.neotreeToggleFocus = /* lua */ ''
+          local function open_file_explorer()
+              local file = vim.fn.expand("%:t")
 
-            if ft == "neo-tree" then
-              vim.cmd("wincmd p")
-            else
-              vim.cmd("Neotree focus")
-            end
+              vim.cmd.Explore()
+
+              vim.schedule(function()
+                  vim.cmd("normal! gg")
+                  vim.fn.search("^" .. vim.fn.escape(file, "\\") .. "$", "W")
+              end)
           end
-
-          vim.keymap.set("n", "<leader>e", toggle_neotree_focus, {
-            desc = "Toggle Neo-tree focus",
-            silent = true,
+          vim.keymap.set("n", "<leader>fe", open_file_explorer, {
+              desc = "Open netrw file explorer"
           })
         '';
 
