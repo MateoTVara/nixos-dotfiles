@@ -7,9 +7,9 @@
 
   programs.rofi = {
     enable = true;
-    font = "Maple Mono 11.25";
-    terminal = "alacritty";
-    extraConfig = {
+    settings = {
+      font = "Maple Mono 11.25";
+      terminal = "alacritty";
       modi = "drun";
       show-icons = true;
       drun-display-format = "{name}";

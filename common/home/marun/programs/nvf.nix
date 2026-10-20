@@ -48,7 +48,12 @@ in
         languages = {
           enableTreesitter = true;
 
-          nix.enable = true;
+          nix = {
+            enable = true;
+            lsp.servers = [
+              "nixd"
+            ];
+          };
 
           bash.enable = true;
           python.enable = true;

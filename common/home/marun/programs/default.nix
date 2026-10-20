@@ -1,25 +1,27 @@
 { pkgs, ... }:
 {
-  home.packages = with pkgs; [
-    tree
-    tokei
-    jq
-    wl-clipboard
-    grim
-    slurp
-    brightnessctl
-    btop
-    qbittorrent
-    pavucontrol
-    wakatime-cli
-    zip
-    unzip
-    just
-  ]
-  ++ (with kdePackages; [
-    dolphin
-    qtdeclarative
-  ]);
+  home.packages =
+    with pkgs;
+    [
+      tree
+      tokei
+      jq
+      wl-clipboard
+      grim
+      slurp
+      brightnessctl
+      btop
+      qbittorrent
+      pavucontrol
+      wakatime-cli
+      zip
+      unzip
+      just
+    ]
+    ++ (with kdePackages; [
+      dolphin
+      qtdeclarative
+    ]);
 
   imports = [
     ./fastfetch
@@ -36,7 +38,6 @@
     ./git.nix
     ./nvf.nix
     ./ssh.nix
-    ./wofi.nix
     ./zsh.nix
   ];
 }

@@ -24,7 +24,7 @@ binds {
     }
     Mod+P hotkey-overlay-title="Toggle rofi project launcher" {
         // spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/Scripts/rofi_project-launcher.sh"
-        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || $HOME/.local/bin/rofi_project-launcher.sh"
+        spawn "sh" "-c" "pgrep -x rofi >/dev/null && pkill -x rofi || rofi-project-launcher"
     }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
@@ -268,8 +268,8 @@ binds {
     // Mod+Space       { switch-layout "next"; }
     // Mod+Shift+Space { switch-layout "prev"; }
 
-    Print { screenshot; }
-    Ctrl+Print { screenshot-screen; }
+    Print { screenshot-screen; }
+    Ctrl+Print { screenshot; }
     Alt+Print { screenshot-window; }
 
     // Applications such as remote-desktop clients and software KVM switches may
