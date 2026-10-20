@@ -28,13 +28,22 @@ ModuleShell {
             } else if (state === UPowerDeviceState.Empty) {
                 prefix = "󱊡";
             } else if (state === UPowerDeviceState.Discharging) {
-                if (currentBatteryLevel >= 70) {
-                    prefix = "󱊣";
-                } else if (currentBatteryLevel > 30) {
-                    prefix = "󱊢";
-                } else {
-                    prefix = "󱊡";
-                }
+                const batteryLevelIndex = Math.floor(currentBatteryLevel / 10);
+                const batteryIcons = ["󰂎" // 0%
+                    , "󰁺" // 10%
+                    , "󰁻" // 20%
+                    , "󰁼" // 30%
+                    , "󰁽" // 40%
+                    , "󰁾" // 50%
+                    , "󰁿" // 60%
+                    , "󰂀" // 70%
+                    , "󰂁" // 80%
+                    , "󰂂" // 90%
+                    , "󰁹", // 100%
+                ];
+                prefix = batteryIcons[batteryLevelIndex];
+            } else {
+                prefix = "󰂑";
             }
             return `${prefix} ${currentBatteryLevel}%`;
         }

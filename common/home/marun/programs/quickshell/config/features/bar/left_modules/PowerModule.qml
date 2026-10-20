@@ -1,10 +1,10 @@
-import qs.components
-import qs.config
-import qs.features.bar.config
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Io
+import qs.components
+import qs.config
+import qs.features.bar.config
 
 ModuleShell {
     id: root
@@ -39,12 +39,13 @@ ModuleShell {
             id: powerMenu
 
             property var padding: ({
-                "block": 6
-            })
+                    "block": 6
+                })
             property bool opened: false
             property int closedOffset: -12
             property int topOffset: powerMenu.closedOffset
 
+            visible: false
             color: "transparent"
             implicitHeight: menuLayout.implicitHeight + padding.block * 2
             exclusionMode: ExclusionMode.Ignore
@@ -63,7 +64,6 @@ ModuleShell {
                 id: content
 
                 anchors.fill: parent
-                opacity: powerMenu.opened ? 1 : 0
 
                 Rectangle {
                     anchors.fill: parent
@@ -79,22 +79,26 @@ ModuleShell {
                     anchors.centerIn: parent
 
                     Repeater {
-                        model: [{
-                            "text": "Shutdown",
-                            "action": () => {
-                                return shutdownProcess.exec(shutdownProcess.command);
+                        model: [
+                            {
+                                "text": "Shutdown",
+                                "action": () => {
+                                    return shutdownProcess.exec(shutdownProcess.command);
+                                }
+                            },
+                            {
+                                "text": "Reboot",
+                                "action": () => {
+                                    return rebootProcess.exec(rebootProcess.command);
+                                }
+                            },
+                            {
+                                "text": "Logout",
+                                "action": () => {
+                                    return logoutProcess.exec(logoutProcess.command);
+                                }
                             }
-                        }, {
-                            "text": "Reboot",
-                            "action": () => {
-                                return rebootProcess.exec(rebootProcess.command);
-                            }
-                        }, {
-                            "text": "Logout",
-                            "action": () => {
-                                return logoutProcess.exec(logoutProcess.command);
-                            }
-                        }]
+                        ]
 
                         delegate: ModuleShell {
                             id: menuItem
@@ -114,9 +118,7 @@ ModuleShell {
                                     ColorAnimation {
                                         duration: 100
                                     }
-
                                 }
-
                             }
 
                             background: ModuleShellBackground {
@@ -135,40 +137,41 @@ ModuleShell {
                                     ColorAnimation {
                                         duration: 100
                                     }
-
                                 }
-
                             }
-
                         }
-
                     }
-
                 }
 
-                Behavior on opacity {
-                    NumberAnimation {
-                        duration: 180
-                        easing.type: Easing.OutCubic
-                    }
+                NumberAnimation {
+                    id: opacityAnim
 
+                    target: content
+                    property: "opacity"
+                    duration: 225
+                    easing.type: Easing.OutCubic
+                    onFinished: {
+                        if (!powerMenu.opened)
+                            powerMenu.visible = false;
+                    }
                 }
 
+                Connections {
+                    function onOpenedChanged() {
+                        opacityAnim.to = powerMenu.opened ? 1 : 0;
+                        opacityAnim.restart();
+                    }
+
+                    target: powerMenu
+                }
             }
 
             Behavior on topOffset {
                 NumberAnimation {
                     duration: 225
                     easing.type: Easing.OutCubic
-                    onFinished: {
-                        if (!powerMenu.opened)
-                            powerMenu.visible = false;
-
-                    }
                 }
-
             }
-
         }
 
         Process {
@@ -188,7 +191,5 @@ ModuleShell {
 
             command: ["niri", "msg", "action", "quit"]
         }
-
     }
-
 }

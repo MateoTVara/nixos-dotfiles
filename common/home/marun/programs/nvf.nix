@@ -1,5 +1,10 @@
-{ ... }:
-
+{
+  pkgs,
+  ...
+}:
+let
+  inherit (pkgs.lib) fakeHash;
+in
 {
   programs.nvf = {
     enable = true;
@@ -14,6 +19,14 @@
         options = {
           tabstop = 2;
           shiftwidth = 2;
+          scrolloff = 12;
+          cursorline = true;
+          expandtab = true;
+          smarttab = true;
+        };
+
+        git = {
+          gitsigns.enable = true;
         };
 
         statusline.lualine = {
@@ -76,22 +89,42 @@
           }
         ];
 
-        # leader + 'fe' to open netrw file explore
-        luaConfigRC.neotreeToggleFocus = /* lua */ ''
-          local function open_file_explorer()
-              local file = vim.fn.expand("%:t")
+        extraPlugins = {
+          scrollEOF-nvim = {
+            package = pkgs.vimUtils.buildVimPlugin {
+              pname = "scrollEOF.nvim";
+              version = "1.3.1";
+              src = pkgs.fetchFromGitHub {
+                owner = "Aasim-A";
+                repo = "scrollEOF.nvim";
+                rev = "e5199e8036420d2a1d56f54b5e4a85cd21692237";
+                hash = "sha256-XaA7iujjRApOpFzDTITUjs+SXuc11vOgbUylyDRVbXk=";
+              };
+            };
+            setup = /* lua */ ''
+              require('scrollEOF').setup()
+            '';
+          };
+        };
 
-              vim.cmd.Explore()
+        luaConfigRC = {
+          # leader + 'fe' to open netrw file explore
+          neotreeToggleFocus = /* lua */ ''
+            local function open_file_explorer()
+                local file = vim.fn.expand("%:t")
 
-              vim.schedule(function()
-                  vim.cmd("normal! gg")
-                  vim.fn.search("^" .. vim.fn.escape(file, "\\") .. "$", "W")
-              end)
-          end
-          vim.keymap.set("n", "<leader>fe", open_file_explorer, {
-              desc = "Open netrw file explorer"
-          })
-        '';
+                vim.cmd.Explore()
+
+                vim.schedule(function()
+                    vim.cmd("normal! gg")
+                    vim.fn.search("^" .. vim.fn.escape(file, "\\") .. "$", "W")
+                end)
+            end
+            vim.keymap.set("n", "<leader>fe", open_file_explorer, {
+                desc = "Open netrw file explorer"
+            })
+          '';
+        };
 
         utility = {
           vim-wakatime = {
