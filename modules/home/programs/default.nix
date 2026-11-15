@@ -36,7 +36,7 @@
     ./direnv.nix
     ./firefox.nix
     ./git.nix
-    ./nvf.nix
+    ./neovim.nix
     ./ssh.nix
     ./zsh.nix
   ];

@@ -68,7 +68,7 @@
                   nvf.homeManagerModules.default
                 ];
                 users.marun.imports = [
-                  ./common/home/marun
+                  ./modules/home
                 ];
               };
             }
